@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "@/components/theme-provider";
+import { Navigation } from "@/components/navigation";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,23 +17,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh-CN">
+    <html lang="zh-CN" suppressHydrationWarning>
       <body className={inter.className}>
-        <div className="min-h-screen bg-background">
-          <header className="border-b">
-            <div className="container mx-auto px-4 py-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-2">
-                  <h1 className="text-2xl font-bold text-primary">PromptHub</h1>
-                  <span className="text-sm text-muted-foreground">提示词版本管理平台</span>
-                </div>
-              </div>
-            </div>
-          </header>
-          <main className="container mx-auto px-4 py-8">
-            {children}
-          </main>
-        </div>
+        <ThemeProvider
+          defaultTheme="system"
+          storageKey="prompt-hub-theme"
+        >
+          <div className="min-h-screen bg-background">
+            {/* 渐变背景 */}
+            <div className="fixed inset-0 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 -z-10" />
+            
+            <Navigation />
+            <main className="container mx-auto px-4 py-8 relative">
+              {children}
+            </main>
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );

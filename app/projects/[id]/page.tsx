@@ -10,6 +10,7 @@ import { ArrowLeft, GitBranch, Clock, FileText, Plus, Settings, Trash2 } from 'l
 import { formatRelativeTime } from '@/lib/utils'
 import { CreateBranchDialog } from '@/components/create-branch-dialog'
 import { DeleteProjectDialog } from '@/components/delete-project-dialog'
+import { MergeBranchDialog } from '@/components/merge-branch-dialog'
 
 interface Branch {
   id: string
@@ -235,9 +236,19 @@ export default function ProjectDetailPage() {
                         {formatRelativeTime(new Date(branch.lastCommit.createdAt))}
                       </div>
                     )}
-                    <Link href={`/projects/${project.id}/branches/${encodeURIComponent(branch.name)}`}>
-                      <Button size="sm">查看分支</Button>
-                    </Link>
+                    <div className="flex items-center gap-2">
+                      {!branch.isDefault && project.branches.length > 1 && (
+                        <MergeBranchDialog
+                          projectId={project.id}
+                          currentBranch={branch.name}
+                          branches={project.branches}
+                          onMergeComplete={fetchProject}
+                        />
+                      )}
+                      <Link href={`/projects/${project.id}/branches/${encodeURIComponent(branch.name)}`}>
+                        <Button size="sm">查看分支</Button>
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </CardContent>

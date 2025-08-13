@@ -12,7 +12,18 @@ export async function GET(
         name: decodeURIComponent(params.branchName)
       },
       include: {
-        project: true,
+        project: {
+          include: {
+            branches: {
+              include: {
+                lastCommit: true,
+                _count: {
+                  select: { commits: true }
+                }
+              }
+            }
+          }
+        },
         lastCommit: true,
         createdFromCommit: true,
         _count: {

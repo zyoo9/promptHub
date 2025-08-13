@@ -21,6 +21,7 @@ import {
 import { formatRelativeTime } from '@/lib/utils'
 import { PromptEditor } from '@/components/prompt-editor'
 import { CommitHistory } from '@/components/commit-history'
+import { MergeBranchDialog } from '@/components/merge-branch-dialog'
 
 interface Commit {
   id: string
@@ -183,6 +184,20 @@ export default function BranchDetailPage() {
               <p className="text-muted-foreground mt-2">{branch.project.description}</p>
             )}
           </div>
+        </div>
+        
+        {/* 分支操作 */}
+        <div className="flex items-center gap-2">
+          {!branch.isDefault && branch.project.branches && (
+            <MergeBranchDialog
+              projectId={projectId}
+              currentBranch={branch.name}
+              branches={branch.project.branches}
+              onMergeComplete={() => {
+                fetchBranch()
+              }}
+            />
+          )}
         </div>
       </div>
 

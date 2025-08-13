@@ -10,20 +10,27 @@
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    --primary: 221.2 83.2% 53.3%;
+    --primary: 262.1 83.3% 57.8%;
     --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222.2 84% 4.9%;
-    --muted: 210 40% 96%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96%;
-    --accent-foreground: 222.2 84% 4.9%;
+    --secondary: 220 14.3% 95.9%;
+    --secondary-foreground: 220.9 39.3% 11%;
+    --muted: 220 14.3% 95.9%;
+    --muted-foreground: 220 8.9% 46.1%;
+    --accent: 220 14.3% 95.9%;
+    --accent-foreground: 220.9 39.3% 11%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
-    --radius: 0.5rem;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 262.1 83.3% 57.8%;
+    --radius: 0.75rem;
+    
+    /* 新增渐变色变量 */
+    --gradient-from: 262.1 83.3% 57.8%;
+    --gradient-to: 221.2 83.2% 53.3%;
+    --success: 142.1 70.6% 45.3%;
+    --warning: 45.4 93.4% 47.5%;
+    --info: 217.2 91.2% 59.8%;
   }
 
   .dark {
@@ -33,19 +40,25 @@
     --card-foreground: 210 40% 98%;
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 84% 4.9%;
-    --secondary: 217.2 32.6% 17.5%;
+    --primary: 263.4 70% 50.4%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 215 27.9% 16.9%;
     --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
+    --muted: 215 27.9% 16.9%;
+    --muted-foreground: 217.9 10.6% 64.9%;
+    --accent: 215 27.9% 16.9%;
     --accent-foreground: 210 40% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 94.1%;
+    --border: 215 27.9% 16.9%;
+    --input: 215 27.9% 16.9%;
+    --ring: 263.4 70% 50.4%;
+    
+    --gradient-from: 263.4 70% 50.4%;
+    --gradient-to: 217.2 91.2% 59.8%;
+    --success: 142.1 70.6% 45.3%;
+    --warning: 45.4 93.4% 47.5%;
+    --info: 217.2 91.2% 59.8%;
   }
 }
 
@@ -54,6 +67,150 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  /* 平滑滚动 */
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  /* 现代化渐变背景 */
+  .gradient-bg {
+    background: linear-gradient(135deg, hsl(var(--gradient-from)) 0%, hsl(var(--gradient-to)) 100%);
+  }
+  
+  .gradient-text {
+    background: linear-gradient(135deg, hsl(var(--gradient-from)) 0%, hsl(var(--gradient-to)) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  /* 玻璃态效果 */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .dark .glass-card {
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  /* 浮动动画 */
+  .float-animation {
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  /* 脉冲效果 */
+  .pulse-glow {
+    box-shadow: 0 0 20px hsla(var(--primary), 0.3);
+    animation: pulse 2s infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 20px hsla(var(--primary), 0.3); }
+    50% { box-shadow: 0 0 30px hsla(var(--primary), 0.5); }
+  }
+  
+  /* 卡片悬停效果 */
+  .card-hover {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+  
+  /* 成功状态 */
+  .status-success {
+    color: hsl(var(--success));
+    background-color: hsla(var(--success), 0.1);
+    border-color: hsla(var(--success), 0.3);
+  }
+  
+  /* 警告状态 */
+  .status-warning {
+    color: hsl(var(--warning));
+    background-color: hsla(var(--warning), 0.1);
+    border-color: hsla(var(--warning), 0.3);
+  }
+  
+  /* 信息状态 */
+  .status-info {
+    color: hsl(var(--info));
+    background-color: hsla(var(--info), 0.1);
+    border-color: hsla(var(--info), 0.3);
+  }
+  
+  /* 移动端优化 */
+  @media (max-width: 768px) {
+    .mobile-stack {
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    .mobile-full {
+      width: 100%;
+    }
+    
+    .mobile-hidden {
+      display: none;
+    }
+    
+    .mobile-text-sm {
+      font-size: 0.875rem;
+    }
+    
+    .mobile-p-4 {
+      padding: 1rem;
+    }
+  }
+  
+  /* 触摸优化 */
+  @media (pointer: coarse) {
+    .touch-target {
+      min-height: 44px;
+      min-width: 44px;
+    }
+    
+    .button, .card-hover {
+      padding: 0.75rem;
+    }
+  }
+  
+  /* 高对比度模式 */
+  @media (prefers-contrast: high) {
+    .card-hover:hover {
+      border-width: 2px;
+    }
+    
+    .glass-card {
+      border-width: 2px;
+    }
+  }
+  
+  /* 减少动画 */
+  @media (prefers-reduced-motion: reduce) {
+    .float-animation,
+    .pulse-glow,
+    .card-hover {
+      animation: none;
+    }
+    
+    * {
+      transition-duration: 0.01ms !important;
+    }
   }
 }
